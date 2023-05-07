@@ -71,6 +71,14 @@ const menuList = [
       img: "./images/item-9.jpeg",
       desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
     },
+    {
+      id: 10,
+      title: "food item X",
+      category: "new",
+      price: 26.99,
+      img: "./images/item-10.jpeg",
+      desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
+    },
   ];
   
  /* return `<div class="menu-item-col">
@@ -89,7 +97,7 @@ const menuList = [
 return `<button class="filter-btn" type="button" data-id=  >  </button>`
 */
 const sectionCenter = document.querySelector(".menu-wrap-section");
-const filterBtns = document.querySelectorAll(".filter-btn");
+
 const btnContainer = document.querySelector(".btn-container");
 
 window.addEventListener("DOMContentLoaded", function () {
@@ -125,5 +133,38 @@ window.addEventListener("DOMContentLoaded", function () {
 
   function displayMenuButtons()
   {
-    
+
+    const categories = menuList.reduce(function(values,item){
+      if (!values.includes(item.category))
+        values.push(item.category);
+      return values;
+    },["all"])
+
+    console.log(categories);
+
+    const categoryBtns = categories.map(function(itemCategory){
+      return `<button class="filter-btn" type="button" data-id= ${itemCategory} > ${itemCategory} </button>`
+      
+    }).join("");
+
+    btnContainer.innerHTML = categoryBtns;
+
+    const filterBtns = document.querySelectorAll(".filter-btn");
+
+    filterBtns.forEach(function(btn){
+      btn.addEventListener('click',function(e){
+        // console.log(e.currentTarget.dataset.id)
+        const category = e.currentTarget.dataset.id;
+        
+        const menuCategory = menuList.filter(function(menuItem){
+          if (menuItem.category === category)
+            return menuItem;
+        });
+
+        if(category === "all")
+        displayMenuItems(menuList);
+        else
+        displayMenuItems(menuCategory);
+      });
+    })
   }
