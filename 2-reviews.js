@@ -39,10 +39,12 @@ const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
 const randomBtn = document.querySelector('.random-btn');
 
-let currentItem = 2;
+/* Coding changes*/
+
+let currentItem = 0; // 2
 window.addEventListener('DOMContentLoaded', function(){
   showPerson(currentItem);
-
+  disableButton(prevBtn); // added part
 })
 
 function showPerson(person){
@@ -51,21 +53,36 @@ function showPerson(person){
     reviewAuthor.textContent = item.name;
     job.textContent = item.job;
     comment.textContent = item.text;
+
+    // added part
+    if (currentItem === 0){
+      disableButton(prevBtn);
+    } else {
+      enableButton(prevBtn);
+    }
+
+    if (currentItem === reviews.length - 1){
+      disableButton(nextBtn);
+    } else {
+      enableButton(nextBtn);
+    }
+    // End part
 }
+
 
 nextBtn.addEventListener('click', function (){
   currentItem++;
-if(currentItem > reviews.length-1){
+/* if(currentItem > reviews.length-1){
   currentItem = 0;
-}
+}*/
   showPerson(currentItem);
 })
 
 prevBtn.addEventListener('click', function (){
   currentItem--;
-if(currentItem < 0){
+/*if(currentItem < 0){
   currentItem = reviews.length-1;
-}
+}*/
   showPerson(currentItem);
 })
 
@@ -73,3 +90,14 @@ randomBtn.addEventListener('click',function(){
   let randomIndex= Math.floor(Math.random()*reviews.length);
   showPerson(randomIndex);
 })
+
+//added part
+function disableButton(btn){
+  btn.disabled=true;
+  btn.classList.add('disabled');
+}
+
+function enableButton(btn){
+  btn.disabled=false;
+  btn.classList.remove('disabled');
+}
